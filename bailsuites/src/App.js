@@ -7,11 +7,13 @@ import Home from './Pages/Home'
 import Login from './Pages/Login';
 import ProtectedRoute from './user-routes/PrivateRoute';
 import Register from './Pages/Register';
+import TopNav from './Pages/TopNav';
 
 function App() {
   return (
     <>
       <Navbar />
+      <TopNav />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
