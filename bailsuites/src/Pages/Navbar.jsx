@@ -4,11 +4,12 @@ import { useAuth } from '../store/auth';
 
 const Navbar = () => {
     const [state, setState] = useState(false);
-    const { removeTokenInLS, isLoggedIn, setTheme, theme } = useAuth();
+    const { isLoggedIn, setTheme, theme } = useAuth();
     const navigate = useNavigate();
+    const token = localStorage.getItem('token');
 
     const logout = () => {
-        removeTokenInLS();
+        localStorage.removeItem('token');
         navigate('/login');
     };
 
@@ -18,15 +19,19 @@ const Navbar = () => {
 
     const navigation = [
         { title: "Home", path: "/" },
-        { title: "Home", path: "/" },
-        { title: "Home", path: "/" },
-        { title: "Home", path: "/" },
-        { title: "Home", path: "/" },
-        { title: "Home", path: "/" },
+        { title: "All Applications", path: "/" },
+        { title: "Starred Applications", path: "/" },
+        { title: "Completed Applications", path: "/" },
+        { title: "Round1 completed", path: "/" },
+        { title: "Round2 completed", path: "/" },
+        { title: "Round3 completed", path: "/" },
+        { title: "Ongoing", path: "/" },
+        { title: "Lawyers", path: "/" },
+        { title: "Applicants", path: "/" },
     ];
 
     return (
-        <div className={`${!isLoggedIn ? "":"hidden"}`}>
+        <div className={`${token ? "":"hidden"}`}>
             <button
                 className="fixed top-4 left-4 z-50 text-gray-500 hover:text-gray-800 md:hidden"
                 onClick={() => setState(!state)}
@@ -51,11 +56,11 @@ const Navbar = () => {
 
             <nav className={`fixed top-0 left-0 h-full w-64 bg-gray-900 transform ${state ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:translate-x-0 z-40`}>
                 <div className="p-4">
-                    <ul className="space-y-6">
+                    <ul className="space-y-4">
                         <li className='flex justify-center align-middle items-center text-white gap-1 py-7'><img src='logo192.png' className='w-7' />BailSuites</li>
                         <hr />
                         {navigation.map((item, idx) => (
-                            <li key={idx} onClick={() => setState(false)} className="text-gray-200 hover:text-yellow-500">
+                            <li key={idx} onClick={() => setState(false)} className="text-gray-200 hover:bg-slate-600 rounded-lg">
                                 <Link to={item.path} className="block py-2 px-4">
                                     {item.title}
                                 </Link>

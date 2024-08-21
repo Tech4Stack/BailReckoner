@@ -10,7 +10,6 @@ export const AuthProvider = ({ children }) => {
     const year = currentDate.getFullYear();
     const time = { day, month, year };
 
-    // const roles = ["Nyay Sahayak", "Advocate", "Applicant"]
     const roles = [
         {
             label :"Nyay Sahayak"
@@ -19,15 +18,19 @@ export const AuthProvider = ({ children }) => {
             label:"Advocate"
         },
         {
+            label: "Police"
+        },
+        {
             label: "Applicant"
         }
     ]
 
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [user, setUser] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(!!token);
+    const [isLoggedIn, setIsLoggedIn] = useState(!token);
     const [event, setEvent] = useState(null);
     const [theme, setTheme] = useState("dark");
+    const [role, setRole] = useState();
 
     const storeTokenInLS = (serverToken) => {
         localStorage.setItem(token, serverToken);
@@ -78,7 +81,7 @@ export const AuthProvider = ({ children }) => {
     }, [token]);
 
     return (
-        <AuthContext.Provider value={{ setIsLoggedIn, isLoggedIn, storeTokenInLS, LogoutUser, removeTokenInLS, user, token, setEvent, event, time, theme, setTheme, roles }}>
+        <AuthContext.Provider value={{ setIsLoggedIn, isLoggedIn, storeTokenInLS, LogoutUser, removeTokenInLS, user, token, setEvent, event, time, theme, setTheme, roles, role, setRole }}>
             {children}
         </AuthContext.Provider>
     );

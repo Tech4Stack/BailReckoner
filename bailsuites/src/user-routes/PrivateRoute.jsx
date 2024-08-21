@@ -3,10 +3,9 @@ import { Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 const ProtectedRoute = ({ children }) => {
-    const token = localStorage.getItem(process.env.REACT_APP_TOKEN_HASH);
-    const log = localStorage.getItem(process.env.REACT_APP_LOG_HASH);
+    const token = localStorage.getItem('token');
 
-    if (!token || !log) {
+    if (!token) {
         toast.error("please login first !!!");
         return <Navigate to="/login" replace />;
     } else {

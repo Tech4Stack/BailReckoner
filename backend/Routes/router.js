@@ -110,8 +110,8 @@ router.post('/registerApplicant', async (req, res) => {
         const existingUser = await Applicant.findOne({ $or: [{ email: email }, { fullname: fullname }] });
 
         if (existingUser) {
-            console.log('User already exists! with that username or email or id');
-            return res.status(422).json({ error: "User already exists! with that username or email or id" });
+            console.log('User already exists! with that username or email');
+            return res.status(422).json({ error: "User already exists! with that username or email" });
         }
 
         const hashedPassword = await bcrypt.hash(password, 12);
@@ -133,7 +133,6 @@ router.post('/registerApplicant', async (req, res) => {
 router.post('/login/:USER', async (req, res) => {
     const { email, password } = req.body;
     const { USER } = req.params;
-    const deviceToken = req.query.deviceToken;
 
     if (!email || !password) {
         return res.status(422).json({ error: "Please provide a valid email and password" });
@@ -155,7 +154,6 @@ router.post('/login/:USER', async (req, res) => {
                 if (!user) {
                     return res.status(422).json({ error: "Invalid username or password" });
                 }
-                user.tokens = deviceToken;
                 await user.save();
                 break;
             case 'applicant':
@@ -199,5 +197,15 @@ router.post('/login/:USER', async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 })
+
+router.get('/user', authMiddleware(Police || Applicant || Lawyer || Judge), (req, res) => {
+    try {
+        const userData = req.user;
+        res.status(200).json({ msg: userData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
 module.exports = router;

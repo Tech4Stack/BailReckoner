@@ -1,22 +1,21 @@
 import React, { useState } from 'react';
+import { useAuth } from '../store/auth';
 
-const Dropdown = ({head,data}) => {
+const Dropdown = ({ head, data }) => {
+    const { setRole } = useAuth();
     const [isOpen, setIsOpen] = useState(false);
-    const [value, setValue] = useState();
     const [label, setLabel] = useState();
 
     const toggleDropdown = () => {
         setIsOpen(!isOpen);
     };
 
-    console.log(value);
-
     return (
         <div className='w-full h-full min-h-20 flex justify-center items-center flex-col'>
             <button
                 id="dropdownSearchButton"
                 onClick={toggleDropdown}
-                className="text-white w-full text-center bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
+                className="text-white w-full bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
                 type="button"
             >
                 {label || head}
@@ -70,7 +69,7 @@ const Dropdown = ({head,data}) => {
                     <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
                         {data && data.length > 0 ? data.map((row, index) => (
                             <li key={index} className="flex items-center ps-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                                <label onClick={() => { setValue(row.label.toLowerCase()); setLabel(row.label);setIsOpen(!isOpen)}} htmlFor={`checkbox-item-${index}`} className="w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
+                                <label onClick={() => { setRole(row.label.toLowerCase()); setLabel(row.label);setIsOpen(!isOpen)}} htmlFor={`checkbox-item-${index}`} className="w-full py-2 ms-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                                     {row.label}
                                 </label>
                             </li>
