@@ -17,11 +17,11 @@ const PoliceSchema = new Schema({
     },
     email: {
         type: String,
-        required: True
+        required: true
     },
     phone: {
         type: String,
-        required: True
+        required: true
     },
     password: {
         type: String,

@@ -2,18 +2,18 @@ const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
 
-const PoliceSchema = new Schema({
+const ApplicantSchema = new Schema({
     fullname: {
         type: String,
         required: true,
     },
     email: {
         type: String,
-        required: True
+        required: true
     },
     phone: {
         type: String,
-        required: True
+        required: true
     },
     password: {
         type: String,
@@ -25,7 +25,7 @@ const PoliceSchema = new Schema({
     }],
 });
 
-PoliceSchema.methods.generateToken = async function () {
+ApplicantSchema.methods.generateToken = async function () {
     try {
         return jwt.sign(
             {
@@ -42,5 +42,5 @@ PoliceSchema.methods.generateToken = async function () {
     }
 };
 
-const Police = mongoose.model("police", PoliceSchema);
-module.exports = Police;
+const Applicant = mongoose.model("applicant", ApplicantSchema);
+module.exports = Applicant;
