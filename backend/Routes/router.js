@@ -208,4 +208,16 @@ router.get('/user', authMiddleware(Police || Applicant || Lawyer || Judge), (req
     }
 });
 
+router.post('/createApplication', authMiddleware(Lawyer), async (req, res) => {
+    const { applicantname, lawyername, judgename, subject, description, attachements, hearings } = req.body;
+    if (applicantname || lawyername || subject || description) {
+        return res.status(500).json({error: "All fields are required!!!"})
+    }
+    try {
+        const 
+    } catch (e) {
+        
+    }
+})
+
 module.exports = router;

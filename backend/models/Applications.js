@@ -3,44 +3,35 @@ const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
 
 const ApplicationsSchema = new Schema({
-    fullname: {
+    applicantname: {
         type: String,
         required: true,
     },
-    department: {
+    lawyername: {
         type: String,
         required: true,
     },
-    email: {
+    judgename: {
         type: String,
         required: true
     },
-    phone: {
+    subject: {
         type: String,
         required: true
     },
-    password: {
+    description: {
         type: String,
         required: true,
-    }
+    },
+    attachments: {
+        type:String
+    },
+    hearings: [
+        {
+            type: String
+        }
+    ]
 });
 
-ApplicationsSchema.methods.generateToken = async function () {
-    try {
-        return jwt.sign(
-            {
-                userId: this._id.toString(),
-                email: this.email,
-            },
-            process.env.JWT_SECRET_KEY,
-            {
-                expiresIn: "30d",
-            }
-        );
-    } catch (error) {
-        console.error("Token Error: ", error);
-    }
-};
-
-const Police = mongoose.model("police", ApplicationsSchema);
-module.exports = Police;
+const Applications = mongoose.model("applications", ApplicationsSchema);
+module.exports = Applications;

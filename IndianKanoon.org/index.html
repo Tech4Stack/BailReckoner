@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indian Kanoon Search</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <!-- div to hold result of AJAX request -->
+    <div id="ikresult"></div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var apiurl = "https://api.indiankanoon.org/search/?formInput=bail+applications&pagenum=1";
+            var apiKey = "1e3437f71a402d7876991c615d8be9f65091e356"; // Add your API key here
+            var headers = {
+                'Authorization': "Token " + apiKey // API key in the Authorization header
+            };
+
+            // Function to handle the search results
+            var complete_fn = function (jsonObject) {
+                var jsonResponse = jsonObject.responseJSON;
+
+                if (!jsonResponse) {
+                    $("#ikresult").text("Error: No response from server or unauthorized.");
+                    return;
+                }
+
+                var docs = jsonResponse.docs;
+                var formInput = jsonResponse.encodedformInput;
+
+                var html_data = '<div class="found"><b>Found ' + jsonResponse.found + ' results for "bail applications"</b></div>';
+                html_data += '<div class="results">';
+
+                for (var i = 0; i < docs.length; i++) {
+                    var doc = docs[i];
+                    html_data += '<div class="result"><a href="https://api.indiankanoon.org/doc/' + doc.tid +
+                        '/?formInput=' + formInput + '">' + doc.title + '</a><div class="fragment">'
+                        + doc.headline + '</div><div class="docsource">' + doc.docsource +
+                        '</div></div>';
+                }
+
+                html_data += '</div>';
+                $("#ikresult").append(html_data);
+            };
+
+            var settings = {
+                url: apiurl,
+                headers: headers,
+                dataType: "json",
+                complete: complete_fn,
+                type: "GET"
+            };
+
+            $.ajax(settings).fail(function (jqXHR, textStatus, errorThrown) {
+                $("#ikresult").text("Request failed: " + textStatus + " - " + errorThrown);
+            });
+        });  
+    </script>
+</body>
+
+</html>
