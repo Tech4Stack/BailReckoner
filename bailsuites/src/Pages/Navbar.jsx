@@ -57,7 +57,7 @@ const Navbar = () => {
             <nav className={`fixed top-0 left-0 h-full w-64 bg-gray-900 transform ${state ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:translate-x-0 z-40`}>
                 <div className="p-4">
                     <ul className="space-y-4">
-                        <li className='flex justify-center align-middle items-center text-white gap-1 py-7'><img src='logo192.png' className='w-7' />BailSuites</li>
+                        <li className='flex justify-center align-middle items-center text-white gap-1 py-7'><img src='logo192.png' className='w-7 rounded-full' />Nyaya<br/>Dwar</li>
                         <hr />
                         {navigation.map((item, idx) => (
                             <li key={idx} onClick={() => setState(false)} className="text-gray-200 hover:bg-slate-600 rounded-lg">
