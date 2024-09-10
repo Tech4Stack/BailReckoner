@@ -84,7 +84,7 @@ const Home = () => {
 
   return (
     <>
-        <main className="bg-gray-100 text-gray-800 ml-64 mt-0">
+        <main className="bg-gray-100 text-gray-800 md:ml-64 mt-0">
           <div className="container mx-auto p-4">
             <div className="mb-4">
               <h1 className="text-4xl font-semibold overflow-hidden">Accused List</h1>
