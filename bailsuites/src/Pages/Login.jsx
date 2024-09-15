@@ -7,7 +7,7 @@ import Dropdown from '../Components/Dropdown';
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const { storeTokenInLS, setIsLoggedIn, roles, role } = useAuth();
+    const { setIsLoggedIn, roles, role } = useAuth();
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {

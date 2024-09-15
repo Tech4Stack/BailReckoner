@@ -9,6 +9,7 @@ const bcrypt = require('bcryptjs');
 const Judge = require('../models/Judge');
 const Police = require('../models/Police');
 const Applicant = require('../models/Applicant');
+const Applications = require('../models/Applications');
 
 router.post('/registerAdvocate', async (req, res) => {
     const { fullname, id, department, email, phone, password } = req.body;
@@ -198,7 +199,7 @@ router.post('/login/:USER', async (req, res) => {
     }
 })
 
-router.get('/user', authMiddleware(Police || Applicant || Lawyer || Judge), (req, res) => {
+router.get('/user', authMiddleware(), (req, res) => {
     try {
         const userData = req.user;
         res.status(200).json({ msg: userData });
@@ -208,11 +209,121 @@ router.get('/user', authMiddleware(Police || Applicant || Lawyer || Judge), (req
     }
 });
 
-router.post('/createApplication', authMiddleware(Lawyer), async (req, res) => {
-    const { applicantname, lawyername, judgename, subject, description, attachements, hearings } = req.body;
-    if (applicantname || lawyername || subject || description) {
-        return res.status(500).json({error: "All fields are required!!!"})
+router.post('/createApplication', authMiddleware([Lawyer,Applicant]), async (req, res) => {
+    const { applicantname, lawyername, accusedname, offence, description, attachments, hearings, bailprob } = req.body;
+
+    if (!applicantname || !lawyername || !offence || !description || !accusedname || !bailprob) {
+        return res.status(400).json({ error: "All fields are required!" });
     }
-})
+
+    try {
+        const newApplication = new Applications({
+            applicantname,
+            lawyername,
+            offence,
+            description,
+            accusedname,
+            attachments,
+            hearings,
+            status: 'pending',
+            bailprob
+        });
+
+        await newApplication.save();
+        return res.status(201).json({ message: "Application created successfully", application: newApplication });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// Fetch all applications (Everyone can see)
+router.get('/applications', async (req, res) => {
+    try {
+        const applications = await Applications.find();
+        return res.status(200).json(applications);
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// Upload attachments (only Lawyer or Applicant can upload)
+router.patch('/applications/:id/uploadAttachments', authMiddleware([Lawyer, Applicant]), async (req, res) => {
+    const { id } = req.params;
+    const { attachments } = req.body;
+
+    try {
+        const application = await Applications.findById(id);
+
+        if (!application) {
+            return res.status(404).json({ error: "Application not found" });
+        }
+
+        // Append new attachments to the existing ones
+        application.attachments = application.attachments ? application.attachments.concat(attachments) : [attachments];
+
+        await application.save();
+        return res.status(200).json({ message: "Attachments uploaded successfully", application });
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// Update hearings (only Judge can update)
+router.patch('/applications/:id/updateHearings', authMiddleware([Judge]), async (req, res) => {
+    const { id } = req.params;
+    const { hearings } = req.body;
+
+    try {
+        const application = await Applications.findById(id);
+
+        if (!application) {
+            return res.status(404).json({ error: "Application not found" });
+        }
+
+        // Update hearings
+        application.hearings = hearings;
+
+        await application.save();
+        return res.status(200).json({ message: "Hearings updated successfully", application });
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+// Update case status (only Judge can update)
+router.patch('/applications/:id/updateStatus', authMiddleware([Judge]), async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    // Validate status
+    const validStatuses = ['pending', 'approved', 'rejected'];
+    if (!validStatuses.includes(status)) {
+        return res.status(400).json({ error: "Invalid status" });
+    }
+
+    try {
+        const application = await Applications.findById(id);
+
+        if (!application) {
+            return res.status(404).json({ error: "Application not found" });
+        }
+
+        // Update status
+        application.status = status;
+
+        await application.save();
+        return res.status(200).json({ message: "Status updated successfully", application });
+
+    } catch (error) {
+        return res.status(500).json({ error: "Internal server error" });
+    }
+});
+
+
 
 module.exports = router;

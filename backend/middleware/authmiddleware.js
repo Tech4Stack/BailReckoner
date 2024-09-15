@@ -1,10 +1,14 @@
 const jwt = require('jsonwebtoken');
+const Applicant = require('../models/Applicant');
+const Police = require('../models/Police');
+const Judge = require('../models/Judge');
+const Lawyer = require('../models/Lawyer');
 
-const authMiddleware = (Model) => {
+const Models = [Applicant, Police, Judge, Lawyer];
+
+const authMiddleware = (userModel) => {
     return async (req, res, next) => {
         const token = req.header('Authorization');
-        console.log("Request Headers: ", req.headers);
-
         if (!token) {
             return res.status(401).json({ message: "Unauthorized HTTP, Token not provided" });
         }
@@ -16,12 +20,32 @@ const authMiddleware = (Model) => {
             const isVerified = jwt.verify(jwtToken, process.env.JWT_SECRET_KEY);
             console.log("Decoded Token: ", isVerified);
 
-            const userData = await Model.findOne({ _id: isVerified._id }).select({ password: 0 });
+            let userData = null;
+
+            if (Array.isArray(userModel)){
+                for (const Model of userModel) {
+                    userData = await Model.findOne({ _id: isVerified._id }).select({ password: 0 });
+                    if (userData) {
+                        console.log(Model);
+                        userData.role = Model;
+                        break;
+                    }
+                }
+            } else {
+                for (const Model of Models) {
+                    userData = await Model.findOne({ _id: isVerified._id }).select({ password: 0 });
+                    if (userData) {
+                        userData.role = Model;
+                        break;
+                    }
+                }
+            }
 
             if (!userData) {
                 console.log("User not found");
                 return res.status(401).json({ message: "User not found" });
             }
+
             req.user = userData;
             req.token = token;
             req.userID = userData._id;

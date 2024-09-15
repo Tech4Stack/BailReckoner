@@ -11,33 +11,25 @@ export const AuthProvider = ({ children }) => {
     const time = { day, month, year };
 
     const roles = [
-        {
-            label :"Nyay Sahayak"
-        },
-        {
-            label:"Advocate"
-        },
-        {
-            label: "Police"
-        },
-        {
-            label: "Applicant"
-        }
-    ]
+        { label: "Nyay Sahayak" },
+        { label: "Advocate" },
+        { label: "Police" },
+        { label: "Applicant" }
+    ];
 
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [user, setUser] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(!token);
+    const [isLoggedIn, setIsLoggedIn] = useState(!!token);
     const [event, setEvent] = useState(null);
     const [theme, setTheme] = useState("dark");
     const [role, setRole] = useState();
 
     const storeTokenInLS = (serverToken) => {
-        localStorage.setItem(token, serverToken);
+        localStorage.setItem('token', serverToken); // Fixed token key
     };
 
     const removeTokenInLS = () => {
-        localStorage.removeItem(token);
+        localStorage.removeItem('token'); // Fixed token key
         setToken(null);
         toast.success("Logged out successfully!!!");
     };
@@ -60,6 +52,7 @@ export const AuthProvider = ({ children }) => {
                 if (response.ok) {
                     const data = await response.json();
                     if (data.msg) {
+                        localStorage.setItem('user', JSON.stringify(data.msg));
                         setUser(data.msg);
                     } else {
                         console.error("Unexpected API response format:", data);
@@ -74,14 +67,20 @@ export const AuthProvider = ({ children }) => {
     };
 
     useEffect(() => {
-        setIsLoggedIn(true);
-        if (token) {
-            userAuthentication();
-        }
-    }, [token]);
+        userAuthentication(); // Initial call
+
+        const intervalId = setInterval(() => {
+            userAuthentication(); // Periodic call every 10 seconds
+        }, 60000); // 10000 milliseconds = 10 seconds
+
+        // Cleanup interval on component unmount
+        return () => clearInterval(intervalId);
+    }, [token]); // Dependency array includes token to re-run if token changes
+
+    const cUser = "applicant"; // lawyer || judge || applicant
 
     return (
-        <AuthContext.Provider value={{ setIsLoggedIn, isLoggedIn, storeTokenInLS, LogoutUser, removeTokenInLS, user, token, setEvent, event, time, theme, setTheme, roles, role, setRole }}>
+        <AuthContext.Provider value={{ cUser, setIsLoggedIn, isLoggedIn, storeTokenInLS, LogoutUser, removeTokenInLS, user, token, setEvent, event, time, theme, setTheme, roles, role, setRole }}>
             {children}
         </AuthContext.Provider>
     );

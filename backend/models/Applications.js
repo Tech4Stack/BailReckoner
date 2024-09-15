@@ -3,6 +3,10 @@ const jwt = require('jsonwebtoken')
 const Schema = mongoose.Schema;
 
 const ApplicationsSchema = new Schema({
+    status: {
+        type: String,
+        enum: ['pending', 'approved', 'rejected'],
+    },
     applicantname: {
         type: String,
         required: true,
@@ -11,11 +15,14 @@ const ApplicationsSchema = new Schema({
         type: String,
         required: true,
     },
-    judgename: {
+    accusedname: {
         type: String,
-        required: true
+        required: true,
     },
-    subject: {
+    period: {
+      type: String  
+    },
+    offence: {
         type: String,
         required: true
     },
@@ -30,7 +37,10 @@ const ApplicationsSchema = new Schema({
         {
             type: String
         }
-    ]
+    ],
+    bailprob: {
+        type: Number,
+        required: true    }
 });
 
 const Applications = mongoose.model("applications", ApplicationsSchema);

@@ -1,8 +1,10 @@
 import React from 'react';
 
 const TopNav = () => {
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user'));
     return (
-        <main className=" bg-gray-100 m-0">
+        <main style={{ display: token ? "block":"none"}} className=" bg-gray-100 m-0 border-b border-gray-200">
             <div className="flex justify-end items-center p-4">
                 <div className="flex space-x-4">
                     <button className="bg-white px-4 rounded-md border border-slate-300">
@@ -16,9 +18,9 @@ const TopNav = () => {
                         </i>
                     </button>
                     <div className="flex items-center bg-white px-4 p-2 rounded-md border border-slate-300">
-                        <img alt="Profile picture" className="w-8 h-8 rounded-full" height="30" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmkyOF1Y-D0kRoVFxtoee5rtjzx3leZylOf-4mRpa0OBg4GXC869j54jnhBiYBtMu2BYg&usqp=CAU" width="30" />
+                        <img alt="Profile picture" className="w-8 h-8 rounded-full border border-slate-300" height="30" src="https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" width="30" />
                         <span className="ml-2">
-                            Justice ABCD
+                            {user && (user.fullname)}
                         </span>
                         <i className="fas fa-chevron-down ml-2 text-slate-400 font-extralight"/>
                     </div>
