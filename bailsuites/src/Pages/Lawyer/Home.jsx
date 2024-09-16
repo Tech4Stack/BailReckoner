@@ -38,6 +38,8 @@ const LawyerDashboard = () => {
   const [pdfFiles, setPdfFiles] = useState([]);
   const [showPopup, setShowPopup] = useState(null);
   const [isLoading, setIsLoading] = useState(false); // State for loading screen
+  const [reportGenerated, setReportGenerated] = useState(false); // State for report overview
+  const [sendingReport, setSendingReport] = useState(false); // State for sending report
 
   const handleUploadClick = () => {
     const input = document.createElement('input');
@@ -66,8 +68,17 @@ const LawyerDashboard = () => {
     // Simulate a report generation process
     setTimeout(() => {
       setIsLoading(false);
-      // Handle any post-report generation logic here
-    }, 3500); // 3.5s delay
+      setReportGenerated(true);
+    }, 3500);
+  };
+
+  const handleSendReport = () => {
+    setSendingReport(true);
+    // Simulate sending report process
+    setTimeout(() => {
+      setSendingReport(false);
+      alert('Report sent to the judicial authority successfully.');
+    }, 2000);
   };
 
   return (
@@ -182,6 +193,49 @@ const LawyerDashboard = () => {
 
       {/* Conditional rendering of LoadingScreen */}
       {isLoading && <LoadingScreen />}
+
+      {/* Report Generation Pop-Up */}
+      {reportGenerated && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-semibold mb-4">Report Generated Successfully</h2>
+            <p>The report has been generated and is ready to be sent to the judicial authority. Do you want to send it now?</p>
+            <div className="mt-6 flex justify-end space-x-4">
+              <button className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={handleSendReport}>
+                Send Report
+              </button>
+              <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition" onClick={() => setReportGenerated(false)}>
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sending Report Loading Screen */}
+      {sendingReport && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+  <div className="bg-white p-6 rounded-xl shadow-lg w-96 flex flex-col items-center">
+    <div className="loader"></div>
+    <p className="mt-4 font-bold text-teal-400 text-2xl">Sending report...</p>
+    <style jsx>{`
+      .loader {
+        width: 200px;
+        height: 40px;
+        background: linear-gradient(#000 0 0) 0/0% no-repeat #ddd;
+        animation: l1 2s infinite linear;
+      }
+      @keyframes l1 {
+        100% {
+          background-size: 100%;
+        }
+      }
+    `}</style>
+    {/* background: linear-gradient(#2dd4bf 0 0) 0/100% no-repeat #ddd; */}
+  </div>
+</div>
+
+      )}
 
       {showPopup && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
