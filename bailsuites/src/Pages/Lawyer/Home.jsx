@@ -51,6 +51,7 @@ const LawyerDashboard = () => {
                         <li><strong>Relevant Law:</strong> Indian Penal Code (IPC) Section 378</li>
                         <li><strong>Summary:</strong> The accused is charged with theft under IPC Section 378, which involves the unlawful taking of someone else's property without consent, intending to deprive the rightful owner of it permanently.</li>
                         <li><strong>Date of Arrest:</strong> 21 August 2024</li>
+                        <li><strong>Prior Crime History:</strong> None</li>
                         <li><strong>Bail Request Status:</strong> Initial Review</li>
                     </ol>
                 </div>
