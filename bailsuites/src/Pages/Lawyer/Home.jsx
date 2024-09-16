@@ -4,17 +4,17 @@ const LoadingScreen = () => {
   return (
     <div className="fixed inset-0 bg-white flex flex-col items-center justify-center z-50">
       <div className="loader"></div>
-      <p className="mt-4 text-gray-700">Generating reports</p>
+      <p className="mt-4 font-bold text-teal-400 text-2xl ">Generating reports</p>
       <style>
         {`
           .loader {
-            width: 50px;
+            width: 150px;
             padding: 8px;
             aspect-ratio: 1;
             border-radius: 50%;
             background: #25b09b;
             --_m: 
-              conic-gradient(#0000 10%,#000),
+              conic-gradient(#0700 10%,#000),
               linear-gradient(#000 0 0) content-box;
             -webkit-mask: var(--_m);
                     mask: var(--_m);
@@ -67,7 +67,7 @@ const LawyerDashboard = () => {
     setTimeout(() => {
       setIsLoading(false);
       // Handle any post-report generation logic here
-    }, 4000); // 4s delay
+    }, 3500); // 3.5s delay
   };
 
   return (
@@ -143,7 +143,7 @@ const LawyerDashboard = () => {
                 <div>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">Bail Hearing 1</span>
-                    <span className="text-gray-500 text-sm">24 August 2024</span>
+                    <span className="text-gray-500 text-sm ">24 August 2024</span>
                   </div>
                   <p className="text-gray-500 text-sm">Status: Awaiting Judge's Decision</p>
                 </div>
