@@ -20,9 +20,9 @@ const CreateApplication = () => {
     const [results, setResults] = useState([]);
 
     const user = JSON.parse(localStorage.getItem('user'));
-    const [rfirstname, setRfirstName] = useState(user.fullname.split(' ')[0]);
-    const [rmiddlename, setRmiddleName] = useState(user.fullname.split(' ')[1]);
-    const [rlastname, setRlastName] = useState(user.fullname.split(' ')[2]);
+    const [rfirstname, setRfirstName] = useState(user?.fullname.split(' ')[0]);
+    const [rmiddlename, setRmiddleName] = useState(user?.fullname.split(' ')[1]);
+    const [rlastname, setRlastName] = useState(user?.fullname.split(' ')[2]);
 
     const [accusedDetails, setAccusedDetails] = useState({});
 

@@ -100,7 +100,7 @@ const Register = () => {
                     {
                         role !== 'applicant' ? (
                             <>
-                                <div>
+                                {/* <div>
                                     <label className="font-medium">
                                         Id
                                     </label>
@@ -111,7 +111,7 @@ const Register = () => {
                                         value={id}
                                         onChange={(e) => setId(e.target.value)}
                                     />
-                                </div>
+                                </div> */}
                                 <div>
                                     <label className="font-medium">
                                         Department

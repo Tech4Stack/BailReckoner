@@ -20,7 +20,7 @@ const TopNav = () => {
                     <div className="flex items-center bg-white px-4 p-2 rounded-md border border-slate-300">
                         <img alt="Profile picture" className="w-8 h-8 rounded-full border border-slate-300" height="30" src="https://static.vecteezy.com/system/resources/thumbnails/008/442/086/small_2x/illustration-of-human-icon-user-symbol-icon-modern-design-on-blank-background-free-vector.jpg" width="30" />
                         <span className="ml-2">
-                            {user && (user.fullname)}
+                            {user && (user.fullname) ||"Legal Aid Advisor"}
                         </span>
                         <i className="fas fa-chevron-down ml-2 text-slate-400 font-extralight"/>
                     </div>

@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
     const time = { day, month, year };
 
     const roles = [
-        { label: "Nyay Sahayak" },
+        { label: "Judge" },
         { label: "Advocate" },
         { label: "Police" },
         { label: "Applicant" }
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
         return () => clearInterval(intervalId);
     }, [token]); // Dependency array includes token to re-run if token changes
 
-    const cUser = "applicant"; // lawyer || judge || applicant
+    const cUser = "judge"; // lawyer || judge || applicant
 
     return (
         <AuthContext.Provider value={{ cUser, setIsLoggedIn, isLoggedIn, storeTokenInLS, LogoutUser, removeTokenInLS, user, token, setEvent, event, time, theme, setTheme, roles, role, setRole }}>

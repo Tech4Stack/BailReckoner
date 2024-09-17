@@ -98,7 +98,7 @@ const Eligible = ({ accdata, submitApplication, acceptance, rejection }) => {
                         </li>
                     ))}
                 </ol>
-                <div className='w-full flex justify-center items-center'>
+                <div className='w-full flex justify-center items-center bg-white'>
                     <div style={{ width: '500px', height: '500px' }}>
                         <Doughnut data={chartData} />
                     </div>

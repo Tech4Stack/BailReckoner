@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { getReport } from './GenerateReport';
 
 const LoadingScreen = () => {
   return (
@@ -41,6 +42,8 @@ const LawyerDashboard = () => {
   const [reportGenerated, setReportGenerated] = useState(false); // State for report overview
   const [sendingReport, setSendingReport] = useState(false); // State for sending report
 
+  const [showReport, setShowReport] = useState(false);
+
   const handleUploadClick = () => {
     const input = document.createElement('input');
     input.type = 'file';
@@ -48,21 +51,23 @@ const LawyerDashboard = () => {
     input.onchange = (event) => {
       const file = event.target.files[0];
       if (file) {
-        setPdfFiles([...pdfFiles, file]);
+        const blobUrl = URL.createObjectURL(file);
+        setPdfFiles([...pdfFiles, { name: file.name, url: blobUrl }]);
       }
     };
     input.click();
   };
 
-  const handleShowPdf = (file) => {
-    setShowPopup(file);
+  const handleShowPdf = (file, name) => {
+    setShowPopup({ file, name });
+    console.log({ file, name });
   };
 
   const handleClosePopup = () => {
     setShowPopup(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsLoading(true);
 
     // Simulate a report generation process
@@ -82,7 +87,7 @@ const LawyerDashboard = () => {
   };
 
   return (
-    <div className='md:ml-64 p-3 bg-gray-100 h-screen'>
+    <div className='main md:ml-64 p-3 bg-gray-100 h-max'>
       <h1 className="text-3xl font-bold mb-6 h-10">Case ABC123 Details</h1>
 
       <nav className="text-gray-500 mb-6 space-x-2">
@@ -118,14 +123,14 @@ const LawyerDashboard = () => {
             <button className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => handleShowPdf("Applicant Testimonial.pdf")}>
               <i className="fas fa-user mr-2"></i> Applicant Testimonial
             </button>
-            <button className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => handleShowPdf("Witness 1 Statement.pdf")}>
+            <button className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => handleShowPdf("./assets/witness.pdf", "Witness 1 Statement.pdf")}>
               <i className="fas fa-file-alt mr-2"></i> Witness 1 Statement
             </button>
-            <button className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => handleShowPdf("Police FIR.pdf")}>
+            <button className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => handleShowPdf("./assets/fir.pdf", "Police FIR.pdf")}>
               <i className="fas fa-file-alt mr-2"></i> Police FIR
             </button>
             {pdfFiles.map((file, index) => (
-              <button key={index} className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => handleShowPdf(file.name)}>
+              <button key={index} className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={() => handleShowPdf(file.url, file.name)}>
                 <i className="fas fa-file-alt mr-2"></i> {file.name}
               </button>
             ))}
@@ -140,7 +145,7 @@ const LawyerDashboard = () => {
             <ul className="space-y-4 relative">
               <div className="absolute left-4 top-5 h-56 border-l-2 border-gray-800"></div>
               <li className="flex items-start relative">
-                <img src='./assets/hammer.svg' className='bg-[#796CFF] p-2 w-10 mr-1 rounded-md'/>
+                <img src='./assets/hammer.svg' className='bg-[#796CFF] p-2 w-10 mr-1 rounded-md' />
                 <div>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">Bail Hearing 2 <span className="text-green-500">(Upcoming)</span></span>
@@ -160,8 +165,8 @@ const LawyerDashboard = () => {
                 </div>
               </li>
               <li className="flex items-start relative">
-                <i className="fas fa-file-alt text-black bg-yellow-400 p-3 w-9 rounded-md mr-3"></i>
-                <div>
+                <i className="fas fa-file-alt text-black bg-yellow-400 p-3 w-9 rounded-md mr-1"></i>
+                <div className='w-full justify-start flex flex-col'>
                   <div className="flex justify-between items-center">
                     <span className="font-semibold">Bail Application</span>
                     <span className="text-gray-500 text-sm">22 August 2024</span>
@@ -170,15 +175,15 @@ const LawyerDashboard = () => {
                 </div>
               </li>
               <li className="flex items-start relative">
-                                <img src='./assets/handcuff.svg' className='bg-[#FF987B] p-2 w-9 mr-1 rounded-md' />
-                                <div>
-                                    <div className="flex justify-between items-center">
-                                        <span className="font-semibold">Arrest</span>
-                                        <span className="text-gray-500 text-sm">21 August 2024</span>
-                                    </div>
-                                    <p className="text-gray-500 text-sm">Arrested at Dadar Police Station</p>
-                                </div>
-                      </li>
+                <img src='./assets/handcuff.svg' className='bg-[#FF987B] p-2 w-9 mr-1 rounded-md' />
+                <div>
+                  <div className="flex justify-between items-center">
+                    <span className="font-semibold">Arrest</span>
+                    <span className="text-gray-500 text-sm">21 August 2024</span>
+                  </div>
+                  <p className="text-gray-500 text-sm">Arrested at Dadar Police Station</p>
+                </div>
+              </li>
             </ul>
           </div>
 
@@ -201,6 +206,9 @@ const LawyerDashboard = () => {
             <h2 className="text-xl font-semibold mb-4">Report Generated Successfully</h2>
             <p>The report has been generated and is ready to be sent to the judicial authority. Do you want to send it now?</p>
             <div className="mt-6 flex justify-end space-x-4">
+              <button onClick={()=>{setShowReport(true);setReportGenerated(false)}} className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition">
+                View Report
+              </button>
               <button className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition" onClick={handleSendReport}>
                 Send Report
               </button>
@@ -212,13 +220,32 @@ const LawyerDashboard = () => {
         </div>
       )}
 
+      {showReport && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white w-8/12 h-3/4 p-6 rounded-lg shadow-lg w-96">
+            <h2 className="text-xl font-semibold mb-4">Report Generated Successfully</h2>
+            <p>The report has been generated and is ready to be sent to the judicial authority. Do you want to send it now?</p>
+            <iframe
+              src="./assets/Case Report Generated.pdf"
+              title="PDF Viewer"
+              width="100%"
+              height="100%"
+              frameBorder="0"
+            ></iframe>
+            <button className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition" onClick={() => { setReportGenerated(false); setShowReport(false)}}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Sending Report Loading Screen */}
       {sendingReport && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-  <div className="bg-white p-6 rounded-xl shadow-lg w-96 flex flex-col items-center">
-    <div className="loader"></div>
-    <p className="mt-4 font-bold text-teal-400 text-2xl">Sending report...</p>
-    <style jsx>{`
+          <div className="bg-white p-6 rounded-xl shadow-lg w-96 flex flex-col items-center">
+            <div className="loader"></div>
+            <p className="mt-4 font-bold text-teal-400 text-2xl">Sending report...</p>
+            <style jsx>{`
       .loader {
         width: 200px;
         height: 40px;
@@ -231,26 +258,37 @@ const LawyerDashboard = () => {
         }
       }
     `}</style>
-    {/* background: linear-gradient(#2dd4bf 0 0) 0/100% no-repeat #ddd; */}
-  </div>
-</div>
+            {/* background: linear-gradient(#2dd4bf 0 0) 0/100% no-repeat #ddd; */}
+          </div>
+        </div>
 
       )}
 
       {showPopup && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white p-8 rounded-lg w-2/3 h-3/4 relative">
-                        <button onClick={handleClosePopup} className="absolute top-4 right-4 text-gray-600 hover:text-black">
-                            ✖
-                        </button>
-                        <h2 className="text-2xl font-semibold mb-4">Viewing PDF: {showPopup}</h2>
-                        <div className="overflow-auto h-full">
-                            {/* to be replace with actual PDF viewer component */}
-                            <p>This is where the PDF content for {showPopup} will be displayed.</p>
-                        </div>
-                    </div>
-                </div>
-            )}
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white p-8 rounded-lg w-2/3 h-3/4 relative">
+            <button onClick={handleClosePopup} className="absolute top-4 right-4 text-gray-600 hover:text-black">
+              ✖
+            </button>
+            <h2 className="text-2xl font-semibold mb-4">Viewing PDF</h2>
+            <div className="overflow-auto h-full">
+              <p>This is where the PDF content for {showPopup.name} will be displayed.</p>
+              <iframe
+                src={showPopup.file}
+                title="PDF Viewer"
+                width="100%"
+                height="100%"
+                frameBorder="0"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      )}
+      <style>
+        {`
+        .main::-webkit-scrollbar{display:none}
+        `}
+      </style>
     </div>
   );
 };

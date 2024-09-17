@@ -43,7 +43,7 @@ router.post('/registerAdvocate', async (req, res) => {
 
 router.post('/registerJudge', async (req, res) => {
     const { fullname, id, department, email, phone, password } = req.body;
-    if (!fullname || !id || !department || !email || !phone || !password) {
+    if (!fullname || !department || !email || !phone || !password) {
         return res.status(400).json({ error: 'Please fill in all fields' });
     }
 
@@ -57,7 +57,7 @@ router.post('/registerJudge', async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
         const judge = new Judge({
-            fullname, id, department, email, phone, password: hashedPassword
+            fullname, department, email, phone, password: hashedPassword
         })
 
         judge.save().then(async judge => {
@@ -143,7 +143,7 @@ router.post('/login/:USER', async (req, res) => {
         let user;
 
         switch (USER.toLowerCase()) {
-            case 'nyay sahayak':
+            case 'judge':
                 user = await Judge.findOne({ email });
                 if (!user) {
                     return res.status(422).json({ error: "Invalid username or password" });
@@ -198,16 +198,6 @@ router.post('/login/:USER', async (req, res) => {
         return res.status(500).json({ error: "Internal server error" });
     }
 })
-
-router.get('/user', authMiddleware(), (req, res) => {
-    try {
-        const userData = req.user;
-        res.status(200).json({ msg: userData });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: "Internal Server Error" });
-    }
-});
 
 router.post('/createApplication', authMiddleware([Lawyer,Applicant]), async (req, res) => {
     const { applicantname, lawyername, accusedname, offence, description, attachments, hearings, bailprob } = req.body;
@@ -324,6 +314,14 @@ router.patch('/applications/:id/updateStatus', authMiddleware([Judge]), async (r
     }
 });
 
-
+router.get('/user', authMiddleware(), (req, res) => {
+    try {
+        const userData = req.user;
+        res.status(200).json({ msg: userData });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal Server Error" });
+    }
+});
 
 module.exports = router;
