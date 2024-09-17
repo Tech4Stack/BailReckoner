@@ -163,12 +163,18 @@ const CaseDetails = () => {
                         <li>
                             <strong>Bail Request Status:</strong> Initial Review
                         </li>
+                        <div className="text-xl font-semibold mt-6 pt-6">Case Summary</div>
+          <p className="text-gray-600 mb-4">
+            XYZ Kumar was arrested on <span className="font-semibold">21 August 2024, 8:21 PM</span> due to charges of theft and assault on an on-duty police officer.
+            ABC Kumar applied for bail immediately and appeared in court for the first bail hearing <span className="font-semibold">18 hours after the arrest</span>.
+            The second hearing is scheduled for <span className="font-semibold">29 August 2024</span>.
+          </p>
                     </ol>
                 </div>
 
                 <div className="md:w-1/3 md:pl-6 mt-6 md:mt-0">
+                    <ul className='bg-blue-50 border border-blue-100 rounded-md my-2 p-2'>
                     <h2 className="text-2xl font-bold mb-4">Defendant Profile</h2>
-                    <ul>
                         <li>
                             <strong>Applicant Name:</strong> ABC Kumar
                         </li>
@@ -177,10 +183,13 @@ const CaseDetails = () => {
                         </li>
                     </ul>
 
+                    <div className='bg-blue-50 border border-blue-100 rounded-md my-2 p-2'>
                     <h2 className="text-2xl font-bold mb-4">Bail Analysis</h2>
                     <div>
                         <p>Bail probability</p>
                         <Doughnut data={chartData} />
+                        <p className='relative bottom-48 left-40 text-green-500 text-4xl font-bold'>{Data[0].prob}%</p>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -233,10 +242,28 @@ const CaseDetails = () => {
                     </div>
                 </div>
 
-                <div className="md:w-1/3 md:pl-6 mt-6 md:mt-0">
+                <div className="md:w-1/3 md:pl-6 mt-6 md:mt-0 bg-blue-50 border border-blue-100 rounded-md m-2 p-2">
                     <h2 className="text-2xl font-bold mb-4">Witness Analysis</h2>
                     <div className="space-y-4 mb-6">
-                        <p>Witness statements and credibility assessment</p>
+                        <p className='h-64 overflow-scroll'>
+                        Michael John Saldarriaga, retired portfolio manager of the defendant now runs a cycling tourism company in French ALPS, 6 Avenue Dynastar, Chamonix, France will say as follows:
+
+1. I was first introduced to Oscar Azevado, the claimant in the proceedings by a mutual friend Carlotta Lopez who told me the claimant was looking for an aggressive manager and I had a reputation for aggressive portfolio management.
+
+2. In my first meeting with the claimant 07/03/06 whilst I was a portfolio manager at Bank Neuchatel, Geneva, the claimant told me he was looking to beat the market by identifying undervalued companies and investing in them.
+
+3. The claimant stated in the meeting "connections equal information equals investment opportunity". I recorded the claimant's investment objective as aggressive growth. The claimant was happy and in the end of the meeting stated "astute and aggressive are my middle names".
+
+4. I moved to the defendant's company Hambling's around December xx07 from Bank Neufchatel where the claimant moved with me. I don't believe the claimant would have moved with me if he was not 100% satisfied with my work.
+
+5. I remember the claimant's objective was aggressive growth but I cannot remember if it was re- agreed when we moved to Hambling's.
+
+6. In March xx08 in a fact-to-face meeting the claimant asked for my opinion on where capital growth over 15% could be made. I recommended Botswana Minerals and cocoa futures but advised the claimant this involves high risk of loss. The claimant stated to proceed and said "no risk, no capital gain". Although the investment did do well.
+
+7. I would confirm the witness statement has been taken from me by the defendant's solicitor, Fiona Landis at a face-to-face meeting and subsequent telephone calls that I had with him.
+
+I believe that the facts stated in the witness statement are true. I understand that proceedings for contempt of court may be brought against anyone who makes or cause to be made, a false statement in a document verified by a statement of truth without an honest belief in its truth.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -245,11 +272,12 @@ const CaseDetails = () => {
                 <div className="md:w-2/3 bg-blue-50 border border-blue-100 p-6 rounded-lg">
                     <h2 className="text-2xl font-bold mb-4">Evidence Overview</h2>
                     <div className="space-y-4 mb-6">
-                        <p>Summary of all evidence</p>
+                        <p>1. Caught on camera</p>
+                        <img className='rounded-sm' src="https://cdnuploads.aa.com.tr/uploads/Contents/2022/12/06/thumbs_b_c_44713aaa83f395c1d272529482daf12e.jpg?v=105113" alt="" srcset="" />
                     </div>
                 </div>
 
-                <div className="md:w-1/3 md:pl-6 mt-6 md:mt-0">
+                <div className="md:w-1/3 md:pl-6 mt-6 md:mt-0 bg-blue-50 border border-blue-100 rounded-md m-2 p-2">
                     <h2 className="text-2xl font-bold mb-4">Case Timeline</h2>
                     <div>
                         <h2 className="text-xl font-bold mb-4">Recent Activity</h2>
@@ -300,7 +328,7 @@ const CaseDetails = () => {
                 </div>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-6 bg-blue-50 border border-blue-100 rounded-md m-2 p-2">
                 <h2 className="text-2xl font-bold mb-4">Schedule Hearing</h2>
                 <input
                     type="date"
