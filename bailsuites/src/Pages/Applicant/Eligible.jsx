@@ -98,7 +98,7 @@ const Eligible = ({ accdata, submitApplication, acceptance, rejection }) => {
                         </li>
                     ))}
                 </ol>
-                <div className='w-full flex justify-center items-center bg-white'>
+                <div className='w-full flex justify-center items-center'>
                     <div style={{ width: '500px', height: '500px' }}>
                         <Doughnut data={chartData} />
                     </div>
@@ -181,7 +181,7 @@ const Eligible = ({ accdata, submitApplication, acceptance, rejection }) => {
                         </thead>
                         <tbody>
                             {lawyers.map((lawyer, index) => (
-                                <tr className="border-b hover:bg-blue-100" key={index}>
+                                <tr className="cursor-pointer border-b hover:bg-blue-100" key={index}>
                                     <td className="py-2 px-4 text-sm text-gray-700">{lawyer.id}</td>
                                     <td className="py-2 px-4 text-sm text-gray-700">{lawyer.name}</td>
                                     <td className="py-2 px-4 text-sm text-gray-700">{lawyer.fees}</td>

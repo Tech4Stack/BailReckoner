@@ -21,8 +21,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/g" element={<CaseDetail />} />
-        <Route path="/case-details/NjYwMTkyOTgyODM3MTI=" element={<CaseDetails />} />
+        <Route path="/case-details/NjYwMTkyOTgyODM3MTI=" element={<CaseDetail />} />
+        <Route path="/g" element={<CaseDetails />} />
         <Route path="/create-application" element={<CreateApplication />} />
         <Route path="/lawyer-dashboard" element={<LawyerDashboard />} />
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />

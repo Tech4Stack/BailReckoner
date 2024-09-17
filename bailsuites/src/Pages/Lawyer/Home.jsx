@@ -222,7 +222,7 @@ const LawyerDashboard = () => {
 
       {showReport && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white w-8/12 h-3/4 p-6 rounded-lg shadow-lg w-96">
+          <div className="bg-white w-8/12 h-3/4 p-6 rounded-lg shadow-lg">
             <h2 className="text-xl font-semibold mb-4">Report Generated Successfully</h2>
             <p>The report has been generated and is ready to be sent to the judicial authority. Do you want to send it now?</p>
             <iframe

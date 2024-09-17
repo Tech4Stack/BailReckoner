@@ -98,36 +98,37 @@ const CreateApplication = () => {
     };
 
     const submitApplication = async () => {
-        const applicationData = {
-            applicantname: `${rfirstname} ${rmiddlename} ${rlastname}`,
-            lawyername: user.fullname,
-            accusedname: `${salutation} ${firstName} ${middleName} ${lastName}`,
-            offence: crimeType,
-            description: `Case ID: ${caseID}, Served months: ${monthsServed}`,
-            attachments: [],
-            hearings: [],
-            bailprob: eligible ? "Eligible" : "Not Eligible"
-        };
+        toast.success("Application sent successfully")
+        // const applicationData = {
+        //     applicantname: `${rfirstname} ${rmiddlename} ${rlastname}`,
+        //     lawyername: user.fullname,
+        //     accusedname: `${salutation} ${firstName} ${middleName} ${lastName}`,
+        //     offence: crimeType,
+        //     description: `Case ID: ${caseID}, Served months: ${monthsServed}`,
+        //     attachments: [],
+        //     hearings: [],
+        //     bailprob: eligible ? "Eligible" : "Not Eligible"
+        // };
 
-        try {
-            const res = await fetch('http://127.0.0.1:5000/createApplication', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                },
-                body: JSON.stringify(applicationData)
-            });
+        // try {
+        //     const res = await fetch('http://127.0.0.1:5000/createApplication', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        //         },
+        //         body: JSON.stringify(applicationData)
+        //     });
 
-            if (res.ok) {
-                toast.success("Application created successfully");
-            } else {
-                const data = await res.json();
-                toast.error(data.error || "Error creating application");
-            }
-        } catch (error) {
-            toast.error("Internal server error");
-        }
+        //     if (res.ok) {
+        //         toast.success("Application created successfully");
+        //     } else {
+        //         const data = await res.json();
+        //         toast.error(data.error || "Error creating application");
+        //     }
+        // } catch (error) {
+        //     toast.error("Internal server error");
+        // }
     };
 
     return (
@@ -152,15 +153,15 @@ const CreateApplication = () => {
                     </div>
                     <div>
                         <label className="block text-sm mb-1">First Name</label>
-                        <input type="text" value={rfirstname} onChange={(e) => setRfirstName(e.target.value)} placeholder="Eg. Abc" className="w-full p-2 border rounded shadow-sm" />
+                        <input type="text" value="Ashutosh" onChange={(e) => setRfirstName(e.target.value)} placeholder="Eg. Abc" className="w-full p-2 border rounded shadow-sm" />
                     </div>
                     <div>
                         <label className="block text-sm mb-1">Middle Name</label>
-                        <input type="text" value={rmiddlename} onChange={(e) => setRmiddleName(e.target.value)} placeholder="Eg. Xyz" className="w-full p-2 border rounded shadow-sm" />
+                        <input type="text" value="Mangal" onChange={(e) => setRmiddleName(e.target.value)} placeholder="Eg. Xyz" className="w-full p-2 border rounded shadow-sm" />
                     </div>
                     <div>
                         <label className="block text-sm mb-1">Last Name</label>
-                        <input type="text" value={rlastname} onChange={(e) => setRlastName(e.target.value)} placeholder="Eg. Pqrst" className="w-full p-2 border rounded shadow-sm" />
+                        <input type="text" value="Singh" onChange={(e) => setRlastName(e.target.value)} placeholder="Eg. Pqrst" className="w-full p-2 border rounded shadow-sm" />
                     </div>
                 </div>
             </div>
@@ -241,6 +242,7 @@ const CreateApplication = () => {
             <button onClick={checkEligibility} className="bg-blue-500 text-white px-4 py-2 rounded shadow">Check Bail Eligibility</button>
 
             {eligible && <Eligible accdata={accusedDetails} submitApplication={submitApplication} acceptance={acceptance} rejection={rejection} />}
+            {/* <Eligible accdata={accusedDetails} submitApplication={submitApplication} acceptance={acceptance} rejection={rejection} /> */}
 
         </div>
     );

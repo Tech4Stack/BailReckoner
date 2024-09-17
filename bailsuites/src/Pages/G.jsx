@@ -222,6 +222,12 @@ const CaseDetails = () => {
                         >
                             <i className="fas fa-file-alt mr-2"></i> Report from LAA
                         </button>
+                        <button
+                            className="w-full bg-green-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-green-600 transition"
+                            onClick={() => handleShowPdf('/assets/Case Report Generated.pdf', 'Case Report Generated.pdf')}
+                        >
+                            <i className="fas fa-file-alt mr-2"></i> Report from Justice
+                        </button>
                         <div className="space-y-4 mb-6">
                             {pdfFiles.map((file, index) => (
                                 <button
@@ -359,7 +365,7 @@ I believe that the facts stated in the witness statement are true. I understand 
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg w-96">
                         <h2 className="text-xl font-semibold mb-4">Report Generated Successfully</h2>
-                        <p>The report has been generated and is ready to be sent to the judicial authority. Do you want to send it now?</p>
+                        <p>The report has been generated and is ready to be attached to the case data. Do you want to upload it now?</p>
                         <div className="mt-6 flex justify-end space-x-4">
                             <button
                                 onClick={() => {
@@ -389,9 +395,17 @@ I believe that the facts stated in the witness statement are true. I understand 
 
             {showReport && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-                    <div className="bg-white w-8/12 h-3/4 p-6 rounded-lg shadow-lg w-96">
+                    <div className="bg-white w-8/12 h-3/4 p-6 rounded-lg shadow-lg">
                         <h2 className="text-xl font-semibold mb-4">Report Generated Successfully</h2>
                         <p>The report has been generated and is ready to be sent to the judicial authority. Do you want to send it now?</p>
+                        <button
+                            className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition"
+                            onClick={() => {
+                                setShowReport(false);
+                            }}
+                        >
+                            Close
+                        </button>
                         <iframe
                             src="/assets/Case Report Generated.pdf"
                             title="PDF Viewer"
@@ -399,15 +413,6 @@ I believe that the facts stated in the witness statement are true. I understand 
                             height="100%"
                             frameBorder="0"
                         ></iframe>
-                        <button
-                            className="bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded-lg hover:bg-gray-400 transition"
-                            onClick={() => {
-                                setReportGenerated(false);
-                                setShowReport(false);
-                            }}
-                        >
-                            Close
-                        </button>
                     </div>
                 </div>
             )}
@@ -416,7 +421,7 @@ I believe that the facts stated in the witness statement are true. I understand 
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
                     <div className="bg-white p-6 rounded-xl shadow-lg w-96 flex flex-col items-center">
                         <div className="loader"></div>
-                        <p className="mt-4 font-bold text-teal-400 text-2xl">Sending report...</p>
+                        <p className="mt-4 font-bold text-teal-400 text-2xl">Uploading report...</p>
                         <style jsx>{`
               .loader {
                 width: 200px;
