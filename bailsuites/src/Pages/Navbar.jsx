@@ -81,7 +81,7 @@ const Navbar = () => {
                 <div className="flex flex-col justify-between h-full p-4">
                     <ul className="space-y-4">
                         <li className='flex justify-center align-middle items-center text-white gap-1 py-7'>
-                            <img src='logo192.png' className='w-7 rounded-full' alt='Logo' />
+                            <img src={'logo192.png' || 'logo512.png'} className='w-7 rounded-full' alt='Logo' />
                             Nyaya<br />Dwar
                         </li>
                         <hr />

@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [itemPerPage, setItemPerPage] = useState(10);
+
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
@@ -19,14 +22,14 @@ const Home = () => {
     {
       "id": 2,
       "name": "Jaiden Nixon",
-      "status": "Approved",
+      "status": "Rejected",
       "crime": "Rash driving",
       "date": "09/30/2017"
     },
     {
       "id": 3,
       "name": "Niya Foley",
-      "status": "Blocked",
+      "status": "Disposed",
       "crime": "Theft",
       "date": "12/09/2009"
     },
@@ -53,9 +56,9 @@ const Home = () => {
     },
     {
       "id": 7,
-      "name": "Reece Duran",
-      "status": "Blocked",
-      "crime": "Attempt to commit suicide",
+      "name": "XYZ Kumar",
+      "status": "Pending",
+      "crime": "Theft Assault",
       "date": "05/06/2023"
     },
     {
@@ -68,14 +71,14 @@ const Home = () => {
     {
       "id": 9,
       "name": "Melvin Boyle",
-      "status": "Blocked",
+      "status": "Pending",
       "crime": "Owner of unauthorised land",
       "date": "08/03/2022"
     },
     {
       "id": 10,
       "name": "Kallee Thomas",
-      "status": "Blocked",
+      "status": "Disposed",
       "crime": "Giving False evidence",
       "date": "11/05/2018"
     }
@@ -111,11 +114,11 @@ const Home = () => {
                 </thead>
                 <tbody>
                   {data.map((row) => (
-                    <tr key={row.id} className={`${row.id%2 === 0 ? "bg-slate-100":""}`}>
+                    <tr onClick={() => { navigate('/case-details/NjYwMTkyOTgyODM3MTI=')}} key={row.id} className={`${row.id%2 === 0 ? "bg-slate-100":""} cursor-pointer`}>
                       <td style={{ borderBottom: row.id === itemPerPage ? 0:null}} className="py-2 px-4 border border-l-0 border-slate-200">{row.id}</td>
                       <td style={{ borderBottom: row.id === itemPerPage ? 0:null}} className="py-2 px-4 border border-slate-200">{row.name}</td>
                       <td style={{ borderBottom: row.id === itemPerPage ? 0:null}} className="py-2 px-4 border border-slate-200">
-                        <span className={row.status === "Approved" ? "text-green-500" : row.status === "Blocked" ? "text-gray-500" : "text-red-500"}>
+                        <span className={row.status === "Approved" ? "text-green-500" : row.status === "Disposed" ? "text-gray-500" : row.status === "Pending" ? "text-yellow-400":"text-red-500"}>
                           ●
                         </span> {row.status}
                       </td>

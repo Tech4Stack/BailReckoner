@@ -10,6 +10,8 @@ import Register from './Pages/Register';
 import TopNav from './Pages/TopNav';
 import LawyerDashboard from './Pages/Lawyer/Home';
 import CreateApplication from './Pages/Applicant/CreateApplication'
+import CaseDetails from './Pages/CaseDetails';
+import CaseDetail from './Pages/G';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/g" element={<CaseDetail />} />
+        <Route path="/case-details/NjYwMTkyOTgyODM3MTI=" element={<CaseDetails />} />
         <Route path="/create-application" element={<CreateApplication />} />
         <Route path="/lawyer-dashboard" element={<LawyerDashboard />} />
         <Route path="/" element={<ProtectedRoute><Home /></ProtectedRoute>} />
